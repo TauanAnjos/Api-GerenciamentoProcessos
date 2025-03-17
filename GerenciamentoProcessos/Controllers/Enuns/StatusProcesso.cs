@@ -3,6 +3,7 @@
     public enum StatusProcesso
     {
         Ativo = 1,
-        Inativo = 2
+        Inativo = 2,
+        Andamento = 3
     }
 }

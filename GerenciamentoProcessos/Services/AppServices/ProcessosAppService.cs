@@ -15,12 +15,12 @@ namespace GerenciamentoProcessos.Services.AppServices
             throw new NotImplementedException();
         }
 
-        public void DeletarProcesso(DeletarProcessoDto deletarProcessoDto)
+        public void DeletarProcesso(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public void EditarProcesso(EditarProcessoDto editarProcessoDto)
+        public void EditarProcesso(Guid id)
         {
             throw new NotImplementedException();
         }

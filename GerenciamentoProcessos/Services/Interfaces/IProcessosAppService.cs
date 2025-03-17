@@ -5,10 +5,10 @@ namespace GerenciamentoProcessos.Services.Interfaces
     public interface IProcessosAppService
     {
         void CriarProcesso(CriarProcessoDto criarProcessoDto);
-        void EditarProcesso(EditarProcessoDto editarProcessoDto);
+        void EditarProcesso(Guid id);
         ProcessosDto BuscarProcessoPorId(Guid id);
         List<ProcessosDto> ListarProcessos();
-        void DeletarProcesso(DeletarProcessoDto deletarProcessoDto);
+        void DeletarProcesso(Guid id);
 
     }
 }
