@@ -16,6 +16,7 @@ namespace GerenciamentoProcessos.Services.AppServices
             _repository = repository;
             _mapper = mapper;
         }
+
         public ProcessosDto BuscarProcessoPorId(Guid id)
         {
             var processo = _repository.BuscarProcessoPorId(id);
