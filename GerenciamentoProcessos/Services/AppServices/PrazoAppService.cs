@@ -20,7 +20,7 @@ namespace GerenciamentoProcessos.Services.AppServices
             throw new NotImplementedException();
         }
 
-        public void EditarPrazo(Guid id)
+        public void EditarPrazo(Guid id, EditarPrazoDto editarPrazoDto)
         {
             throw new NotImplementedException();
         }

@@ -20,7 +20,7 @@ namespace GerenciamentoProcessos.Services.AppServices
             throw new NotImplementedException();
         }
 
-        public void EditarProcurador(Guid id)
+        public void EditarProcurador(Guid id, EditarProcuradorDto editarProcuradorDto)
         {
             throw new NotImplementedException();
         }

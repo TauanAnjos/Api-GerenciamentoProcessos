@@ -1,4 +1,5 @@
-﻿using GerenciamentoProcessos.Controllers.Dtos;
+﻿
+using GerenciamentoProcessos.Controllers.Dtos;
 using GerenciamentoProcessos.Services.Interfaces;
 
 namespace GerenciamentoProcessos.Services.AppServices
@@ -20,7 +21,7 @@ namespace GerenciamentoProcessos.Services.AppServices
             throw new NotImplementedException();
         }
 
-        public void EditarDistribuicaoProcesso(Guid id)
+        public void EditarDistribuicaoProcesso(Guid id, EditarDistribuicaoProcessoDto editarDistribuicaoProcessoDto)
         {
             throw new NotImplementedException();
         }
