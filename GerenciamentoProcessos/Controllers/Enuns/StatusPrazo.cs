@@ -1,5 +1,8 @@
-﻿namespace GerenciamentoProcessos.Controllers.Enuns
+﻿using System.Text.Json.Serialization;
+
+namespace GerenciamentoProcessos.Controllers.Enuns
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum StatusPrazo
     {
         Recurso = 1,

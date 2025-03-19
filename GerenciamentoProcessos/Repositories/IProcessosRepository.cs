@@ -10,6 +10,6 @@ namespace GerenciamentoProcessos.Repositories
         Processo? BuscarProcessoPorId(Guid id);
         List<Processo> ListarProcessos();
         void DeletarProcesso(Processo processo);
-
+        Processo? BuscarProcessoPorClientePorId(Guid id);
     }
 }

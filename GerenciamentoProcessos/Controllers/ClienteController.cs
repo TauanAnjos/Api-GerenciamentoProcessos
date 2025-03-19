@@ -8,10 +8,12 @@ namespace GerenciamentoProcessos.Controllers;
 public class ClienteController : ControllerBase
 {
     private readonly IClienteAppService _clienteAppService;
+    private readonly IProcessosAppService _processosAppService;
 
-    public ClienteController(IClienteAppService clienteAppService)
+    public ClienteController(IClienteAppService clienteAppService, IProcessosAppService processosAppService)
     {
         _clienteAppService = clienteAppService;
+        _processosAppService = processosAppService;
     }
 
     [HttpPost]
@@ -94,6 +96,25 @@ public class ClienteController : ControllerBase
             _clienteAppService.DeletarCliente(id);
             return NoContent();
         }catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("BuscarProcessoPorClientePorId{id}")]
+    public IActionResult BuscarProcessoPorClientePorId([FromRoute] Guid id)
+    {
+        var processo = _processosAppService.BuscarProcessoPorClientePorId(id);
+
+        if (processo == null)
+        {
+            return NotFound($"Processo de ID {id} não encontrado.");
+        }
+        try
+        {
+            return Ok(processo);
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

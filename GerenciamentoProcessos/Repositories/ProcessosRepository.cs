@@ -11,6 +11,15 @@ namespace GerenciamentoProcessos.Repositories
         {
             _context = context;
         }
+
+        public Processo? BuscarProcessoPorClientePorId(Guid id)
+        {
+            return _context.Set<Processo>()
+                .Include(x => x.Procurador)
+                .Include(x => x.Cliente)
+                .FirstOrDefault(x => x.ClienteId == id);
+        }
+
         public Processo? BuscarProcessoPorId(Guid id)
         {
             return _context.Set<Processo>()
@@ -41,12 +50,13 @@ namespace GerenciamentoProcessos.Repositories
 
         public List<Processo> ListarProcessos()
         {
-           return _context.Processos
-                .Include(x => x.DistribuicaoProcessos)
-                .Include(x => x.Documentos)
-                .Include(x => x.Prazos)
-                .Include(x => x.Procurador)
-                .ToList();
+            return _context.Processos
+                 .Include(x => x.DistribuicaoProcessos)
+                 .Include(x => x.Documentos)
+                 .Include(x => x.Prazos)
+                 .Include(x => x.Procurador)
+                 .Include(x => x.Cliente)
+                 .ToList();
         }
     }
 }

@@ -3,6 +3,7 @@ using GerenciamentoProcessos.Controllers.Dtos;
 using GerenciamentoProcessos.Models;
 using GerenciamentoProcessos.Repositories;
 using GerenciamentoProcessos.Services.Interfaces;
+using System.Diagnostics;
 
 namespace GerenciamentoProcessos.Services.AppServices
 {
@@ -15,6 +16,13 @@ namespace GerenciamentoProcessos.Services.AppServices
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public ProcessosDto BuscarProcessoPorClientePorId(Guid clienteId)
+        {
+            var processo = _repository.BuscarProcessoPorClientePorId(clienteId);
+            
+           return _mapper.Map<ProcessosDto>(processo);
         }
 
         public ProcessosDto BuscarProcessoPorId(Guid id)

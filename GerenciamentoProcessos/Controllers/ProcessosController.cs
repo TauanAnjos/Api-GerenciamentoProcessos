@@ -14,7 +14,11 @@ public class ProcessosController : ControllerBase
     {
         _processosAppService = processosAppService;
     }
-
+    /// <summary>
+    /// Cria um processo jurídico.
+    /// </summary>
+    /// <param name="criarProcessoDto">Campos para criar um processo.</param>
+    /// <returns>Cria um processo jurídico.</returns>
     [HttpPost]
     public IActionResult CriarProcesso([FromBody]CriarProcessoDto criarProcessoDto)
     {

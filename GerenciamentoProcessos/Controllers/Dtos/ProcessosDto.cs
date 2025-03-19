@@ -9,7 +9,8 @@ namespace GerenciamentoProcessos.Controllers.Dtos
         public string? OrgaoResponsavel { get; set; }
         public string? Assunto { get; set; }
         public StatusProcesso StatusProcesso { get; set; }
-        public Guid? ProcuradorId { get; set; }
-        public Guid? ClienteId { get; set; }
+        public ProcuradorDto? Procurador { get; set; }
+        public ClienteDto? Cliente { get; set; }
+        public PrazoDto? Prazo { get; set; }
     }
 }

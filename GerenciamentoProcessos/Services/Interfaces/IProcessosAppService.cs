@@ -9,6 +9,7 @@ namespace GerenciamentoProcessos.Services.Interfaces
         ProcessosDto BuscarProcessoPorId(Guid id);
         List<ProcessosDto> ListarProcessos();
         void DeletarProcesso(Guid id);
+        ProcessosDto BuscarProcessoPorClientePorId(Guid clienteId);
 
     }
 }
