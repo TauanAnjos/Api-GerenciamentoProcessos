@@ -15,7 +15,7 @@ public partial class Processo
 
     public string Assunto { get; set; }
 
-    public string Status { get; set; }
+    public int Status { get; set; }
 
     public Guid? ProcuradorId { get; set; }
 

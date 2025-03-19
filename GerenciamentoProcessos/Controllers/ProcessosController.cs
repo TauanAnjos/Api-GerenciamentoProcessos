@@ -18,7 +18,80 @@ public class ProcessosController : ControllerBase
     [HttpPost]
     public IActionResult CriarProcesso([FromBody]CriarProcessoDto criarProcessoDto)
     {
-        _processosAppService.CriarProcesso(criarProcessoDto);
-        return Created("/api/v1/processos", criarProcessoDto);
+        if (criarProcessoDto == null)
+        {
+            return BadRequest("Os dados do processo são obrigatorios.");
+        }
+        try
+        {
+            _processosAppService.CriarProcesso(criarProcessoDto);
+            return Created("/api/v1/processos", criarProcessoDto);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }  
     }
+
+    [HttpGet]
+    public IActionResult ListarProcessos()
+    {
+        try
+        {
+            var processos = _processosAppService.ListarProcessos();
+            return Ok(processos);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet("{id}")]
+    public IActionResult BuscarProcessoPorId([FromRoute] Guid id)
+    {
+        try
+        {
+            var processo = _processosAppService.BuscarProcessoPorId(id);
+            if (processo == null)
+            {
+                return NotFound($"Processo com ID {id} não encontrado.");
+            }
+
+            return Ok(processo);
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("{id}")]
+    public IActionResult EditarProcesso([FromRoute] Guid id, [FromBody] EditarProcessoDto editarProcessoDto)
+    {
+        var processoExistente = _processosAppService.BuscarProcessoPorId(id);
+
+        if(processoExistente == null)
+        {
+            return BadRequest($"Processo com ID {id} não encontrado.");
+        }
+
+        _processosAppService.EditarProcesso(id, editarProcessoDto);
+
+        var processoAtualizado = _processosAppService.BuscarProcessoPorId(id);
+        return Ok(processoAtualizado);
+    }
+    [HttpDelete("{id}")]
+    public IActionResult DeletarProcesso([FromRoute] Guid id)
+    {
+        var processo = _processosAppService.BuscarProcessoPorId(id);
+
+        if( processo == null)
+        {
+            return NotFound($"Processo com ID {id} não encontrado.");
+        }
+
+        _processosAppService.DeletarProcesso(id);
+        return NoContent();
+    }
+
 }

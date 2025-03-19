@@ -15,7 +15,7 @@ public partial class Prazo
 
     public DateOnly? DataVencimento { get; set; }
 
-    public string Status { get; set; }
+    public int Status { get; set; }
 
     public virtual Processo Processo { get; set; }
 }

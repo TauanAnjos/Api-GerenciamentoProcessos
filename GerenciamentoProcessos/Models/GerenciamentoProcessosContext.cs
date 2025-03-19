@@ -115,8 +115,8 @@ public partial class GerenciamentoProcessosContext : DbContext
             entity.Property(e => e.DataVencimento).HasColumnName("data_vencimento");
             entity.Property(e => e.ProcessoId).HasColumnName("processo_id");
             entity.Property(e => e.Status)
-                .HasMaxLength(255)
-                .HasColumnName("status");
+                .HasColumnName("status")
+                .HasConversion<int>(); ;
             entity.Property(e => e.Tipo)
                 .HasMaxLength(255)
                 .HasColumnName("tipo");
@@ -149,8 +149,8 @@ public partial class GerenciamentoProcessosContext : DbContext
                 .HasColumnName("orgao_responsavel");
             entity.Property(e => e.ProcuradorId).HasColumnName("procurador_id");
             entity.Property(e => e.Status)
-                .HasMaxLength(255)
-                .HasColumnName("status");
+                .HasColumnName("status")
+                .HasConversion<int>(); ;
 
             entity.HasOne(d => d.Cliente).WithMany(p => p.Processos)
                 .HasForeignKey(d => d.ClienteId)
