@@ -72,13 +72,19 @@ public class ProcessosController : ControllerBase
 
         if(processoExistente == null)
         {
-            return BadRequest($"Processo com ID {id} não encontrado.");
+            return NotFound($"Processo com ID {id} não encontrado.");
         }
 
-        _processosAppService.EditarProcesso(id, editarProcessoDto);
-
-        var processoAtualizado = _processosAppService.BuscarProcessoPorId(id);
-        return Ok(processoAtualizado);
+        try
+        {
+            _processosAppService.EditarProcesso(id, editarProcessoDto);
+            var processoAtualizado = _processosAppService.BuscarProcessoPorId(id);
+            return Ok(processoAtualizado);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     [HttpDelete("{id}")]
     public IActionResult DeletarProcesso([FromRoute] Guid id)
@@ -90,8 +96,15 @@ public class ProcessosController : ControllerBase
             return NotFound($"Processo com ID {id} não encontrado.");
         }
 
-        _processosAppService.DeletarProcesso(id);
-        return NoContent();
+        try
+        {
+            _processosAppService.DeletarProcesso(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
 }

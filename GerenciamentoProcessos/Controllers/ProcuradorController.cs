@@ -31,4 +31,76 @@ public class ProcuradorController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpGet("{id}")]
+    public IActionResult BuscarProcuradorPorId([FromRoute] Guid id)
+    {
+        var procuradorExistente = _procuradorAppService.BuscarProcuradorPorId(id);
+
+        if (procuradorExistente == null)
+        {
+            return NotFound($"Procurador de ID {id} não encontrado.");
+        }
+
+        try
+        {
+            return Ok(procuradorExistente);
+
+        }catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet]
+    public IActionResult ListarProcuradores()
+    {
+        try
+        {
+            var procuradores = _procuradorAppService.ListarProcuradores();
+            return Ok(procuradores);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("{id}")]
+    public IActionResult EditarProcurador([FromRoute] Guid id, [FromBody] EditarProcuradorDto editarProcuradorDto)
+    {
+        var procuradorExistente = _procuradorAppService.BuscarProcuradorPorId(id);
+
+        if (procuradorExistente == null)
+        {
+            return NotFound($"Procurador de ID {id} não encontrado.");
+        }
+
+        try
+        {
+            _procuradorAppService.EditarProcurador(id, editarProcuradorDto);
+            var procuradorAtualizado = _procuradorAppService.BuscarProcuradorPorId(id);
+            return Ok(procuradorAtualizado);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpDelete("{id}")]
+    public IActionResult DeleteProcurador([FromRoute] Guid id)
+    {
+        var procuradorExistente = _procuradorAppService.BuscarProcuradorPorId(id);
+
+        if(procuradorExistente == null)
+        { 
+            return NotFound($"Procurador de ID {id} não encontrado.");
+        }
+
+        try
+        {
+            _procuradorAppService.DeletarProcurador(id);
+            return NoContent();
+        }catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
