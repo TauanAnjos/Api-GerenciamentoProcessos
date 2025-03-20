@@ -33,6 +33,20 @@ Após iniciar a API, abra no navegador:
 
 https://localhost:7113/swagger/index.html
 
+🔹 Endpoints Principais
+
+Método	Rota	Descrição
+
+GET	/api/processos	Lista todos os processos
+
+GET	/api/processos/{id}	Consulta um processo específico
+
+POST	/api/processos	Cria um novo processo
+
+PUT	/api/processos/{id}	Atualiza um processo existente
+
+DELETE	/api/processos/{id}	Remove um processo
+
 ## Estrutura do Projeto
 
 /src
