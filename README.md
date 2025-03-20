@@ -37,15 +37,15 @@ https://localhost:7113/swagger/index.html
 
 Método	Rota	Descrição
 
-GET	/api/processos	Lista todos os processos
+GET	/api/v1/processos	Lista todos os processos
 
-GET	/api/processos/{id}	Consulta um processo específico
+GET	/api/v1/processos/{id}	Consulta um processo específico
 
-POST	/api/processos	Cria um novo processo
+POST	/api/v1/processos	Cria um novo processo
 
-PUT	/api/processos/{id}	Atualiza um processo existente
+PUT	/api/v1/processos/{id}	Atualiza um processo existente
 
-DELETE	/api/processos/{id}	Remove um processo
+DELETE	/api/v1/processos/{id}	Remove um processo
 
 ## Estrutura do Projeto
 
