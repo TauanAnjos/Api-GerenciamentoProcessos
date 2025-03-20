@@ -124,6 +124,14 @@ ALTER TABLE [DistribuicaoProcesso]
 
 ### ✅ Banco de Dados Criado com Sucesso!
 
+## 🔧 Configuração da Conexão com o Banco de Dados
+
+No arquivo appsettings.json, localizado na raiz do projeto, configure a string de conexão para conectar ao banco de dados.
+
+"ConnectionStrings": {
+  "DefaultConnection": "Server=NOME_DO_SEU_SERVIDOR;Database=GerenciamentoProcessos;User Id=SEU_USUARIO;Password=SUA_SENHA;Encrypt=True;TrustServerCertificate=True"
+}
+
 ## Testando a API
 
 Após iniciar a API, abra no navegador:
