@@ -27,6 +27,12 @@ Essa separação permite um código mais limpo e facilita futuras expansões da 
 
 🎯 Arquitetura → Padrão MVC
 
+## Testando a API
+
+Após iniciar a API, abra no navegador:
+
+https://localhost:7113/swagger/index.html
+
 ## Estrutura do Projeto
 
 /src
