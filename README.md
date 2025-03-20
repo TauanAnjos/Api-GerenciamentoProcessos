@@ -56,7 +56,6 @@ CREATE TABLE [Processo] (
   [procurador_id] uniqueidentifier,
   [cliente_id] uniqueidentifier
 )
-GO
 
 CREATE TABLE [Prazo] (
   [id] uniqueidentifier PRIMARY KEY default NEWID(),
@@ -65,7 +64,6 @@ CREATE TABLE [Prazo] (
   [data_vencimento] date,
   [status] int
 )
-GO
 
 CREATE TABLE [Documento] (
   [id] uniqueidentifier PRIMARY KEY default NEWID(),
@@ -74,7 +72,6 @@ CREATE TABLE [Documento] (
   [tipo] nvarchar(50),
   [caminho_arquivo] nvarchar(255)
 )
-GO
 
 CREATE TABLE [Procurador] (
   [id] uniqueidentifier PRIMARY KEY default NEWID(),
@@ -83,7 +80,6 @@ CREATE TABLE [Procurador] (
   [senha] nvarchar(255),
   [oab] nvarchar(255) UNIQUE
 )
-GO
 
 CREATE TABLE [Cliente] (
   [id] uniqueidentifier PRIMARY KEY default NEWID(),
@@ -91,7 +87,6 @@ CREATE TABLE [Cliente] (
   [email] nvarchar(255) UNIQUE,
   [senha] nvarchar(255)
 )
-GO
 
 CREATE TABLE [DistribuicaoProcesso] (
   [id] uniqueidentifier PRIMARY KEY default NEWID(),
@@ -100,7 +95,6 @@ CREATE TABLE [DistribuicaoProcesso] (
   [procurador_destino_id] uniqueidentifier,
   [data_transferencia] datetime
 )
-GO
 
 ### 📌 Passo 4: Criar as Relações entre as Tabelas
 
