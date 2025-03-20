@@ -124,6 +124,42 @@ ALTER TABLE [DistribuicaoProcesso]
 
 ### ✅ Banco de Dados Criado com Sucesso!
 
+## 📝 Script para popular o banco para testes!
+
+-- Inserir Procuradores
+INSERT INTO Procurador (id, nome, email, senha, oab) VALUES
+  (NEWID(), 'João Silva', 'joao.silva@email.com', 'senha123', '12345/SP'),
+  (NEWID(), 'Maria Oliveira', 'maria.oliveira@email.com', 'senha123', '67890/RJ');
+
+-- Inserir Clientes
+INSERT INTO Cliente (id, nome, email, senha) VALUES
+  (NEWID(), 'Carlos Souza', 'carlos.souza@email.com', 'senha123'),
+  (NEWID(), 'Ana Lima', 'ana.lima@email.com', 'senha123');
+
+-- Inserir Processos
+DECLARE @procurador_id UNIQUEIDENTIFIER = (SELECT TOP 1 id FROM Procurador);
+DECLARE @cliente_id UNIQUEIDENTIFIER = (SELECT TOP 1 id FROM Cliente);
+
+INSERT INTO Processo (id, numero, orgao_responsavel, assunto, status, procurador_id, cliente_id) VALUES
+  (NEWID(), '2024001', 'Tribunal de Justiça', 'Ação Trabalhista', 1, @procurador_id, @cliente_id),
+  (NEWID(), '2024002', 'Justiça Federal', 'Revisão de Benefício', 2, @procurador_id, @cliente_id);
+
+-- Inserir Prazos
+DECLARE @processo_id UNIQUEIDENTIFIER = (SELECT TOP 1 id FROM Processo);
+
+INSERT INTO Prazo (id, processo_id, tipo, data_vencimento, status) VALUES
+  (NEWID(), @processo_id, 'Entrega de Documentos', '2024-10-01', 1);
+
+-- Inserir Documentos
+INSERT INTO Documento (id, processo_id, nome, tipo, caminho_arquivo) VALUES
+  (NEWID(), @processo_id, 'Petição Inicial', 'PDF', '/documentos/peticao_inicial.pdf');
+
+-- Inserir Distribuições de Processo
+DECLARE @procurador_destino_id UNIQUEIDENTIFIER = (SELECT TOP 1 id FROM Procurador WHERE id <> @procurador_id);
+
+INSERT INTO DistribuicaoProcesso (id, processo_id, procurador_origem_id, procurador_destino_id, data_transferencia) VALUES
+  (NEWID(), @processo_id, @procurador_id, @procurador_destino_id, GETDATE());
+
 ## 🔧 Configuração da Conexão com o Banco de Dados
 
 No arquivo appsettings.json, localizado na raiz do projeto, configure a string de conexão para conectar ao banco de dados.
