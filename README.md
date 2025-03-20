@@ -27,23 +27,23 @@ Essa separação permite um código mais limpo e facilita futuras expansões da 
 
 🎯 Arquitetura → Padrão MVC
 
-🏛️ Configuração do Banco de Dados
+##🏛️ Configuração do Banco de Dados
 
 Para utilizar a API, é necessário criar o banco de dados e suas tabelas. Siga os passos abaixo para configurar o ambiente no SQL Server.
 
-📌 Passo 1: Criar o Banco de Dados
+##📌 Passo 1: Criar o Banco de Dados
 
 Abra o SQL Server Management Studio (SSMS) ou outro cliente SQL e execute o seguinte comando:
 
 CREATE DATABASE GerenciamentoProcessos; 
 
-📌 Passo 2: Selecionar o Banco de Dados
+##📌 Passo 2: Selecionar o Banco de Dados
 
 Após criar o banco, selecione-o para poder criar as tabelas:
 
 USE GerenciamentoProcessos;
 
-📌 Passo 3: Criar as Tabelas
+##📌 Passo 3: Criar as Tabelas
 
 Execute os comandos abaixo para criar as tabelas necessárias:
 
@@ -102,7 +102,7 @@ CREATE TABLE [DistribuicaoProcesso] (
 )
 GO
 
-📌 Passo 4: Criar as Relações entre as Tabelas
+##📌 Passo 4: Criar as Relações entre as Tabelas
 
 Agora, adicione as chaves estrangeiras para garantir a integridade referencial:
 
@@ -134,7 +134,7 @@ ALTER TABLE [DistribuicaoProcesso]
   ADD FOREIGN KEY ([procurador_destino_id]) REFERENCES [Procurador] ([id]) ON DELETE NO ACTION  -- Ligação com procurador de destino, não permite exclusão se estiver em distribuição
 GO
 
-✅ Banco de Dados Criado com Sucesso!
+##✅ Banco de Dados Criado com Sucesso!
 
 ## Testando a API
 
