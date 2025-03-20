@@ -30,12 +30,18 @@ Essa separação permite um código mais limpo e facilita futuras expansões da 
 ## Estrutura do Projeto
 
 /src
+
   /Controllers
+  
     - ProcessosController.cs
+    
   /Models
+  
     - Processo.cs
   /Repositories
+  
     - ProcessoRepository.cs
   /Services
+  
     - ProcessoService.cs
 
