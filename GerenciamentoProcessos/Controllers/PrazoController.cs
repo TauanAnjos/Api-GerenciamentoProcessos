@@ -8,10 +8,12 @@ namespace GerenciamentoProcessos.Controllers;
 public class PrazoController : ControllerBase
 {
     private readonly IPrazoAppService _prazoAppService;
+    private readonly ILogger<PrazoController> _logger;
 
-    public PrazoController(IPrazoAppService prazoAppService)
+    public PrazoController(IPrazoAppService prazoAppService, ILogger<PrazoController> logger)
     {
         _prazoAppService = prazoAppService;
+        _logger = logger;
     }
     /// <summary>
     /// Cria um novo prazo.
@@ -21,17 +23,21 @@ public class PrazoController : ControllerBase
     [HttpPost]
     public IActionResult CriarPrazo(CriarPrazoDto criarPrazoDto)
     {
+        _logger.LogInformation("Recebida requisição para criar um prazo.");
         if (criarPrazoDto == null)
         {
+            _logger.LogWarning("Dados do prazo não foram fornecidos.");
             return BadRequest("Os dados de prazo são obrigatorios.");
         }
         try
         {
             _prazoAppService.CriarPrazo(criarPrazoDto);
+            _logger.LogInformation("Prazo criado com sucesso.");
             return Created("api/v1/prazo", criarPrazoDto);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao criar prazo.");
             return BadRequest(ex.Message);
         }
     }
@@ -43,17 +49,21 @@ public class PrazoController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult BuscarPrazoPorId([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para buscar prazo com ID {Id}.", id);
         var prazoExistente = _prazoAppService.BuscarPrazoPorId(id);
         if (prazoExistente == null)
         {
+            _logger.LogWarning("Prazo de ID {Id} não encontrado.", id);
             return NotFound($"Prazo de ID {id} não encontrado.");
         }
         try
         {
+            _logger.LogInformation("Prazo encontrado.");
             return Ok(prazoExistente);
         }
         catch (Exception ex) 
         {
+            _logger.LogError(ex, "Erro ao buscar prazo.");
             return BadRequest(ex.Message);
         }
     }
@@ -64,13 +74,16 @@ public class PrazoController : ControllerBase
     [HttpGet]
     public IActionResult ListarPrazos()
     {
+        _logger.LogInformation("Recebida requisição para listar todos os prazos.");
         try
         {
             var prazos = _prazoAppService.ListarPrazos();
+            _logger.LogInformation("Lista de prazos retornada com sucesso.");
             return Ok(prazos);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao listar prazos.");
             return BadRequest(ex.Message);
         }
     }
@@ -83,9 +96,11 @@ public class PrazoController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult EditarPrazo([FromRoute]Guid id,[FromBody] EditarPrazoDto editarPrazoDto)
     {
+        _logger.LogInformation("Recebida requisição para editar prazo com ID {Id}.", id);
         var prazo = _prazoAppService.BuscarPrazoPorId(id);
         if(prazo == null)
         {
+            _logger.LogWarning("Prazo de ID {Id} não encontrado.", id);
             return NotFound($"Prazo de ID{id} não encontrado.");
         }
 
@@ -93,10 +108,12 @@ public class PrazoController : ControllerBase
         {
             _prazoAppService.EditarPrazo(id, editarPrazoDto);
             var prazoAtualizado = _prazoAppService.BuscarPrazoPorId(id);
+            _logger.LogInformation("Prazo de ID {Id} atualizado com sucesso.", id);
             return Ok(prazoAtualizado);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao editar prazo.");
             return BadRequest(ex.Message);
         }
     }
@@ -108,17 +125,21 @@ public class PrazoController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeletePrazo([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para deletar prazo com ID {Id}.", id);
         var prazoExistente = _prazoAppService.BuscarPrazoPorId(id);
         if (prazoExistente == null)
         {
+            _logger.LogWarning("Prazo de ID {Id} não encontrado.", id);
             return NotFound($"Prazo de ID {id} não encontrado.");
         }
         try
         {
             _prazoAppService.DeletarPrazo(id);
+            _logger.LogInformation("Prazo de ID {Id} deletado com sucesso.", id);
             return NoContent();
         }catch(Exception ex)
         {
+            _logger.LogError(ex, "Erro ao deletar prazo.");
             return BadRequest(ex.Message);
         }
     }

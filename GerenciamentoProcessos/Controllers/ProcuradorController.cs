@@ -8,10 +8,12 @@ namespace GerenciamentoProcessos.Controllers;
 public class ProcuradorController : ControllerBase
 {
     private readonly IProcuradorAppService _procuradorAppService;
+    private readonly ILogger<ProcuradorController> _logger;
 
-    public ProcuradorController(IProcuradorAppService procuradorAppService)
+    public ProcuradorController(IProcuradorAppService procuradorAppService, ILogger<ProcuradorController> logger)
     {
         _procuradorAppService = procuradorAppService;
+        _logger = logger;
     }
     /// <summary>
     /// Cria um novo procurador.
@@ -21,17 +23,21 @@ public class ProcuradorController : ControllerBase
     [HttpPost]
     public IActionResult criarProcurador([FromBody] CriarProcuradorDto procuradorDto)
     {
+        _logger.LogInformation("Recebida requisição para criar um procurador.");
         if (procuradorDto == null)
         {
+            _logger.LogWarning("Dados do procurador não foram fornecidos.");
             return BadRequest("Os dados do procurador são obrigatorios.");
         }
         try
         {
             _procuradorAppService.CriarProcurador(procuradorDto);
+            _logger.LogInformation("Procurador criado com sucesso.");
             return Created("api/v1/procurador", procuradorDto);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao criar procurador.");
             return BadRequest(ex.Message);
         }
     }
@@ -43,19 +49,22 @@ public class ProcuradorController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult BuscarProcuradorPorId([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para buscar procurador com ID {Id}.", id);
         var procuradorExistente = _procuradorAppService.BuscarProcuradorPorId(id);
-
         if (procuradorExistente == null)
         {
+            _logger.LogWarning("Procurador de ID {Id} não encontrado.", id);
             return NotFound($"Procurador de ID {id} não encontrado.");
         }
 
         try
         {
+            _logger.LogInformation("Procurador encontrado.");
             return Ok(procuradorExistente);
 
         }catch(Exception ex)
         {
+            _logger.LogError(ex, "Erro ao buscar procurador.");
             return BadRequest(ex.Message);
         }
     }
@@ -66,6 +75,7 @@ public class ProcuradorController : ControllerBase
     [HttpGet]
     public IActionResult ListarProcuradores()
     {
+        _logger.LogInformation("Recebida requisição para listar todos os procuradores.");
         try
         {
             var procuradores = _procuradorAppService.ListarProcuradores();
@@ -73,6 +83,7 @@ public class ProcuradorController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao listar procuradores.");
             return BadRequest(ex.Message);
         }
     }
@@ -85,10 +96,11 @@ public class ProcuradorController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult EditarProcurador([FromRoute] Guid id, [FromBody] EditarProcuradorDto editarProcuradorDto)
     {
+        _logger.LogInformation("Recebida requisição para editar procurador com ID {Id}.", id);
         var procuradorExistente = _procuradorAppService.BuscarProcuradorPorId(id);
-
         if (procuradorExistente == null)
         {
+            _logger.LogWarning("Procurador de ID {Id} não encontrado.", id);
             return NotFound($"Procurador de ID {id} não encontrado.");
         }
 
@@ -96,10 +108,12 @@ public class ProcuradorController : ControllerBase
         {
             _procuradorAppService.EditarProcurador(id, editarProcuradorDto);
             var procuradorAtualizado = _procuradorAppService.BuscarProcuradorPorId(id);
+            _logger.LogInformation("Procurador de ID {Id} atualizado com sucesso.", id);
             return Ok(procuradorAtualizado);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao editar procurador.");
             return BadRequest(ex.Message);
         }
     }
@@ -111,17 +125,21 @@ public class ProcuradorController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeleteProcurador([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para deletar procurador com ID {Id}.", id);
         var procuradorExistente = _procuradorAppService.BuscarProcuradorPorId(id);
         if(procuradorExistente == null)
-        { 
+        {
+            _logger.LogWarning("Procurador de ID {Id} não encontrado.", id);
             return NotFound($"Procurador de ID {id} não encontrado.");
         }
         try
         {
             _procuradorAppService.DeletarProcurador(id);
+            _logger.LogInformation("Procurador de ID {Id} deletado com sucesso.", id);
             return NoContent();
         }catch(Exception ex)
         {
+            _logger.LogError(ex, "Erro ao deletar procurador.");
             return BadRequest(ex.Message);
         }
     }

@@ -9,10 +9,12 @@ namespace GerenciamentoProcessos.Controllers;
 public class DocumentoController : ControllerBase
 {
     private readonly IDocumentoAppService _documentoAppService;
+    private readonly ILogger<DocumentoController> _logger;
 
-    public DocumentoController(IDocumentoAppService documentoAppService)
+    public DocumentoController(IDocumentoAppService documentoAppService, ILogger<DocumentoController> logger)
     {
         _documentoAppService = documentoAppService;
+        _logger = logger;
     }
     /// <summary>
     /// Cria um novo documento.
@@ -22,17 +24,21 @@ public class DocumentoController : ControllerBase
     [HttpPost]
     public IActionResult CriarDocumento(CriarDocumentoDto criarDocumentoDto)
     {
-        if(criarDocumentoDto == null)
+        _logger.LogInformation("Recebida requisição para criar um documento.");
+        if (criarDocumentoDto == null)
         {
+            _logger.LogWarning("Dados do documento não foram fornecidos.");
             return BadRequest("Os dados do documento são obrigatorios.");
         }
         try
         {
             _documentoAppService.CriarDocumento(criarDocumentoDto);
+            _logger.LogInformation("Documento criado com sucesso.");
             return Created("api/v1/documento", criarDocumentoDto);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao criar documento.");
             return BadRequest(ex.Message);
         }
     }
@@ -44,17 +50,21 @@ public class DocumentoController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult BuscarDocumentoPorId([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para buscar documento com ID {Id}.", id);
         var documentoExistente = _documentoAppService.BuscarDocumentoPorId(id);
         if(documentoExistente == null)
         {
+            _logger.LogWarning("Documento de ID {Id} não encontrado.", id);
             return NotFound($"Documento de ID {id} não encontrado.");
         }
         try
         {
+            _logger.LogInformation("Documento encontrado.");
             return Ok(documentoExistente);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao buscar documento.");
             return BadRequest(ex.Message);
         }
     }
@@ -65,13 +75,16 @@ public class DocumentoController : ControllerBase
     [HttpGet]
     public IActionResult ListarDocumento()
     {
+        _logger.LogInformation("Recebida requisição para listar todos os documentos.");
         try
         {
             var documentos = _documentoAppService.ListarDocumentos();
+            _logger.LogInformation("Lista de documentos retornada com sucesso.");
             return Ok(documentos);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao listar documentos.");
             return BadRequest(ex.Message);
         }
     }
@@ -84,19 +97,23 @@ public class DocumentoController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult EditarDocumento([FromRoute] Guid id, [FromBody] EditarDocumentoDto editarDocumentoDto)
     {
+        _logger.LogInformation("Recebida requisição para editar documento com ID {Id}.", id);
         var documentoExistente = _documentoAppService.BuscarDocumentoPorId(id);
         if (documentoExistente == null)
         {
+            _logger.LogWarning("Documento de ID {Id} não encontrado.", id);
             return NotFound($"Documento de ID {id} não encontrado.");
         }
         try
         {
             _documentoAppService.EditarDocumento(id, editarDocumentoDto);
             var documentoAtualizado = _documentoAppService.BuscarDocumentoPorId(id);
+            _logger.LogInformation("Documento de ID {Id} atualizado com sucesso.", id);
             return Ok(documentoAtualizado);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao editar documento.");
             return BadRequest(ex.Message);
         }
     }
@@ -108,17 +125,21 @@ public class DocumentoController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeleteDocumento([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para deletar documento com ID {Id}.", id);
         var documentoExistente = _documentoAppService.BuscarDocumentoPorId(id);
         if(documentoExistente == null)
         {
+            _logger.LogWarning("Documento de ID {Id} não encontrado.", id);
             return NotFound($"Documento de ID {id} não encontrado.");
         }
         try
         {
             _documentoAppService.DeletarDocumento(id);
+            _logger.LogInformation("Documento de ID {Id} deletado com sucesso.", id);
             return NoContent();
         }catch(Exception ex)
         {
+            _logger.LogError(ex, "Erro ao deletar documento.");
             return BadRequest(ex.Message);
         }
     }

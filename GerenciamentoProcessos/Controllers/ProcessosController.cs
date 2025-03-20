@@ -9,10 +9,12 @@ namespace GerenciamentoProcessos.Controllers;
 public class ProcessosController : ControllerBase
 {
     private readonly IProcessosAppService _processosAppService;
+    private readonly ILogger<ProcuradorController> _logger;
 
-    public ProcessosController(IProcessosAppService processosAppService)
+    public ProcessosController(IProcessosAppService processosAppService, ILogger<ProcuradorController> logger)
     {
         _processosAppService = processosAppService;
+        _logger = logger;
     }
     /// <summary>
     /// Cria um novo processo jurídico.
@@ -22,17 +24,22 @@ public class ProcessosController : ControllerBase
     [HttpPost]
     public IActionResult CriarProcesso([FromBody]CriarProcessoDto criarProcessoDto)
     {
+        _logger.LogInformation("Recebida requisição para criar um processo.");
         if (criarProcessoDto == null)
         {
+            _logger.LogWarning("Dados do processo não foram fornecidos.");
             return BadRequest("Os dados do processo são obrigatorios.");
         }
         try
         {
+            _logger.LogInformation("Criando um novo processo.");
             _processosAppService.CriarProcesso(criarProcessoDto);
+            _logger.LogInformation("Processo criado com sucesso.");
             return Created("/api/v1/processos", criarProcessoDto);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao criar processo.");
             return BadRequest(ex.Message);
         }  
     }
@@ -43,13 +50,17 @@ public class ProcessosController : ControllerBase
     [HttpGet]
     public IActionResult ListarProcessos([FromQuery] ProcessosFiltrosDto processosDto)
     {
+        _logger.LogInformation("Recebida requisição para listar todos os processos.");
         try
         {
+            _logger.LogInformation("Listando processos.");
             var processos = _processosAppService.ListarProcessos(processosDto);
+            _logger.LogInformation("Lista de processos retornada com sucesso.");
             return Ok(processos);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao listar processos.");
             return BadRequest(ex.Message);
         }
     }
@@ -61,19 +72,21 @@ public class ProcessosController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult BuscarProcessoPorId([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para buscar processo com ID {Id}.", id);
         try
         {
+            _logger.LogInformation($"Buscando processo com ID {id}");
             var processo = _processosAppService.BuscarProcessoPorId(id);
             if (processo == null)
             {
+                _logger.LogWarning($"Processo de ID {id} não encontrado.");
                 return NotFound($"Processo com ID {id} não encontrado.");
             }
-
             return Ok(processo);
-
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, $"Erro ao buscar processo com ID {id}");
             return BadRequest(ex.Message);
         }
     }
@@ -86,10 +99,11 @@ public class ProcessosController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult EditarProcesso([FromRoute] Guid id, [FromBody] EditarProcessoDto editarProcessoDto)
     {
+        _logger.LogInformation("Recebida requisição para editar processo com ID {Id}.", id);
         var processoExistente = _processosAppService.BuscarProcessoPorId(id);
-
         if(processoExistente == null)
         {
+            _logger.LogWarning("Processo de ID {Id} não encontrado.", id);
             return NotFound($"Processo com ID {id} não encontrado.");
         }
 
@@ -97,10 +111,12 @@ public class ProcessosController : ControllerBase
         {
             _processosAppService.EditarProcesso(id, editarProcessoDto);
             var processoAtualizado = _processosAppService.BuscarProcessoPorId(id);
+            _logger.LogInformation($"Processo com ID {id} editado com sucesso.");
             return Ok(processoAtualizado);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao editar processo.");
             return BadRequest(ex.Message);
         }
     }
@@ -112,20 +128,23 @@ public class ProcessosController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult DeletarProcesso([FromRoute] Guid id)
     {
+        _logger.LogInformation("Recebida requisição para deletar processo com ID {Id}.", id);
         var processo = _processosAppService.BuscarProcessoPorId(id);
-
         if( processo == null)
         {
+            _logger.LogWarning($"Processo com ID {id} não encontrado para exclusão.");
             return NotFound($"Processo com ID {id} não encontrado.");
         }
 
         try
         {
             _processosAppService.DeletarProcesso(id);
+            _logger.LogInformation($"Processo com ID {id} excluído com sucesso.");
             return NoContent();
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, $"Erro ao excluir processo com ID {id}");
             return BadRequest(ex.Message);
         }
     }
