@@ -17,6 +17,7 @@ namespace GerenciamentoProcessos.Repositories
             return _context.Set<Processo>()
                 .Include(x => x.Procurador)
                 .Include(x => x.Cliente)
+                .Include(x => x.Prazos)
                 .FirstOrDefault(x => x.ClienteId == id);
         }
 
@@ -27,6 +28,7 @@ namespace GerenciamentoProcessos.Repositories
                 .Include(x => x.Documentos)
                 .Include(x => x.Prazos)
                 .Include(x => x.Procurador)
+                .Include(x => x.Cliente)
                 .FirstOrDefault(x => x.Id == id);
         }
 

@@ -15,7 +15,11 @@ public class ClienteController : ControllerBase
         _clienteAppService = clienteAppService;
         _processosAppService = processosAppService;
     }
-
+    /// <summary>
+    /// Cria um novo cliente.
+    /// </summary>
+    /// <param name="clienteDto">Objeto contendo os dados necessários para criar um cliente.</param>
+    /// <returns>Retorna o cliente criado.</returns>
     [HttpPost]
     public IActionResult CriarCliente([FromBody] CriarClienteDto clienteDto)
     {
@@ -33,11 +37,15 @@ public class ClienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Busca um cliente pelo ID.
+    /// </summary>
+    /// <param name="id">ID do cliente a ser buscado.</param>
+    /// <returns>Retorna o cliente correspondente ao ID informado.</returns>
     [HttpGet("{id}")]
     public IActionResult BuscarClientePorId([FromRoute] Guid id)
     {
         var clienteExistente = _clienteAppService.BuscarClientePorId(id);
-
         if (clienteExistente == null)
         {
             return NotFound($"Cliente de ID {id} não encontrado.");
@@ -51,6 +59,10 @@ public class ClienteController : ControllerBase
             return BadRequest(ex.Message);
         } 
     }
+    /// <summary>
+    /// Lista todos os clientes cadastrados.
+    /// </summary>
+    /// <returns>Retorna uma lista de clientes.</returns>
     [HttpGet]
     public IActionResult ListarClientes()
     {
@@ -63,11 +75,16 @@ public class ClienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Edita um cliente existente.
+    /// </summary>
+    /// <param name="id">ID do cliente a ser editado.</param>
+    /// <param name="editarClienteDto">Objeto contendo os novos dados do cliente.</param>
+    /// <returns>Retorna o cliente atualizado.</returns>
     [HttpPut("{id}")]
     public IActionResult EditarCliente([FromRoute] Guid id, [FromBody] EditarClienteDto editarClienteDto)
     {
         var clienteExistente = _clienteAppService.BuscarClientePorId(id);
-
         if(clienteExistente == null)
         {
             return NotFound($"Cliente de ID{id} não encontrado.");
@@ -82,11 +99,15 @@ public class ClienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Deleta um cliente pelo ID.
+    /// </summary>
+    /// <param name="id">ID do cliente a ser deletado.</param>
+    /// <returns>Retorna NoContent se a exclusão for bem-sucedida.</returns>
     [HttpDelete("{id}")]
     public IActionResult DeletarCliente([FromRoute] Guid id)
     {
         var clienteExistente = _clienteAppService.BuscarClientePorId(id);
-
         if (clienteExistente == null)
         {
             return NotFound($"Cliente de ID {id} não encontrado.");

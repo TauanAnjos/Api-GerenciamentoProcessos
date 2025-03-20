@@ -73,12 +73,31 @@ namespace GerenciamentoProcessos.Services.AppServices
             _repository.EditarProcesso(processo);
         }
 
-        public List<ProcessosDto> ListarProcessos()
+        public List<ProcessosDto> ListarProcessos(ProcessosFiltrosDto processosDto)
         {
             var processos = _repository.ListarProcessos();
 
-            var processosDtos = _mapper.Map<List<ProcessosDto>>(processos);
+            var processosList = FiltrarProcessos(processosDto, processos);
 
+            return processosList;
+        }
+
+        private List<ProcessosDto> FiltrarProcessos(ProcessosFiltrosDto processosDto, List<Processo> processosDtoLista)
+        {
+            if (processosDto.Numero != null)
+            {
+                processosDtoLista = (List<Processo>)processosDtoLista.Where(x => x.Numero == processosDto.Numero).ToList();
+            }
+            if (processosDto.OrgaoResponsavel != null)
+            {
+                processosDtoLista = (List<Processo>)processosDtoLista.Where(x => x.OrgaoResponsavel == processosDto.OrgaoResponsavel).ToList();
+            }
+            if (processosDto.Assunto != null)
+            {
+                processosDtoLista = (List<Processo>)processosDtoLista.Where(x => x.Assunto == processosDto.Assunto).ToList();
+            }
+
+            var processosDtos = _mapper.Map<List<ProcessosDto>>(processosDtoLista);
             return processosDtos;
         }
     }

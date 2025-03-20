@@ -11,6 +11,7 @@ namespace GerenciamentoProcessos.Controllers.Dtos
         public StatusProcesso StatusProcesso { get; set; }
         public ProcuradorDto? Procurador { get; set; }
         public ClienteDto? Cliente { get; set; }
-        public PrazoDto? Prazo { get; set; }
+        public List<PrazoDto>? Prazo { get; set; }
+        public List<DistribuicaoProcessoDto>? DistribuicaoProcessos { get; set; }
     }
 }

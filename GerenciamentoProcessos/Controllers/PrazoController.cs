@@ -13,7 +13,11 @@ public class PrazoController : ControllerBase
     {
         _prazoAppService = prazoAppService;
     }
-
+    /// <summary>
+    /// Cria um novo prazo.
+    /// </summary>
+    /// <param name="criarPrazoDto">Objeto contendo os dados necessários para criar um prazo.</param>
+    /// <returns>Retorna o prazo criado.</returns>
     [HttpPost]
     public IActionResult CriarPrazo(CriarPrazoDto criarPrazoDto)
     {
@@ -31,11 +35,15 @@ public class PrazoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Busca um prazo pelo ID.
+    /// </summary>
+    /// <param name="id">ID do prazo a ser buscado.</param>
+    /// <returns>Retorna o prazo correspondente ao ID informado.</returns>
     [HttpGet("{id}")]
     public IActionResult BuscarPrazoPorId([FromRoute] Guid id)
     {
         var prazoExistente = _prazoAppService.BuscarPrazoPorId(id);
-
         if (prazoExistente == null)
         {
             return NotFound($"Prazo de ID {id} não encontrado.");
@@ -48,8 +56,11 @@ public class PrazoController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-
     }
+    /// <summary>
+    /// Lista todos os prazos cadastrados.
+    /// </summary>
+    /// <returns>Retorna uma lista de prazos.</returns>
     [HttpGet]
     public IActionResult ListarPrazos()
     {
@@ -63,11 +74,16 @@ public class PrazoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Edita um prazo existente.
+    /// </summary>
+    /// <param name="id">ID do prazo a ser editado.</param>
+    /// <param name="editarPrazoDto">Objeto contendo os novos dados do prazo.</param>
+    /// <returns>Retorna o prazo atualizado.</returns>
     [HttpPut("{id}")]
     public IActionResult EditarPrazo([FromRoute]Guid id,[FromBody] EditarPrazoDto editarPrazoDto)
     {
         var prazo = _prazoAppService.BuscarPrazoPorId(id);
-
         if(prazo == null)
         {
             return NotFound($"Prazo de ID{id} não encontrado.");
@@ -84,11 +100,15 @@ public class PrazoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Deleta um prazo pelo ID.
+    /// </summary>
+    /// <param name="id">ID do prazo a ser deletado.</param>
+    /// <returns>Retorna NoContent se a exclusão for bem-sucedida.</returns>
     [HttpDelete("{id}")]
     public IActionResult DeletePrazo([FromRoute] Guid id)
     {
         var prazoExistente = _prazoAppService.BuscarPrazoPorId(id);
-
         if (prazoExistente == null)
         {
             return NotFound($"Prazo de ID {id} não encontrado.");

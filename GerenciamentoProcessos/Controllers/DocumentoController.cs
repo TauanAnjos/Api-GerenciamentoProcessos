@@ -14,6 +14,11 @@ public class DocumentoController : ControllerBase
     {
         _documentoAppService = documentoAppService;
     }
+    /// <summary>
+    /// Cria um novo documento.
+    /// </summary>
+    /// <param name="criarDocumentoDto">Objeto contendo os dados necessários para criar um documento.</param>
+    /// <returns>Retorna o documento criado.</returns>
     [HttpPost]
     public IActionResult CriarDocumento(CriarDocumentoDto criarDocumentoDto)
     {
@@ -31,6 +36,11 @@ public class DocumentoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Busca um documento pelo ID.
+    /// </summary>
+    /// <param name="id">ID do documento a ser buscado.</param>
+    /// <returns>Retorna o documento encontrado ou um erro caso não exista.</returns>
     [HttpGet("{id}")]
     public IActionResult BuscarDocumentoPorId([FromRoute] Guid id)
     {
@@ -48,6 +58,10 @@ public class DocumentoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Lista todos os documentos.
+    /// </summary>
+    /// <returns>Retorna uma lista de documentos.</returns>
     [HttpGet]
     public IActionResult ListarDocumento()
     {
@@ -61,6 +75,12 @@ public class DocumentoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Edita um documento existente.
+    /// </summary>
+    /// <param name="id">ID do documento a ser editado.</param>
+    /// <param name="editarDocumentoDto">Objeto contendo os novos dados do documento.</param>
+    /// <returns>Retorna o documento atualizado.</returns>
     [HttpPut("{id}")]
     public IActionResult EditarDocumento([FromRoute] Guid id, [FromBody] EditarDocumentoDto editarDocumentoDto)
     {
@@ -80,6 +100,11 @@ public class DocumentoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Exclui um documento pelo ID.
+    /// </summary>
+    /// <param name="id">ID do documento a ser excluído.</param>
+    /// <returns>Retorna NoContent caso a exclusão seja bem-sucedida.</returns>
     [HttpDelete("{id}")]
     public IActionResult DeleteDocumento([FromRoute] Guid id)
     {

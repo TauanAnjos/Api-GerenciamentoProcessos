@@ -13,7 +13,11 @@ public class DistribuicaoProcessoController : ControllerBase
     {
         _distribuicaoProcessoAppService = distribuicaoProcessoAppService;
     }
-
+    /// <summary>
+    /// Cria uma nova distribuição de processo.
+    /// </summary>
+    /// <param name="criarDistribuicaoProcessoDto">Objeto contendo os dados necessários para criar a distribuição de processo.</param>
+    /// <returns>Retorna a distribuição de processo criada.</returns>
     [HttpPost]
     public IActionResult CriarDistribuicaoProcesso(CriarDistribuicaoProcessoDto criarDistribuicaoProcessoDto)
     {
@@ -31,6 +35,11 @@ public class DistribuicaoProcessoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Busca uma distribuição de processo pelo ID.
+    /// </summary>
+    /// <param name="id">ID da distribuição de processo a ser buscada.</param>
+    /// <returns>Retorna a distribuição de processo correspondente ao ID informado.</returns>
     [HttpGet("{id}")]
     public IActionResult BuscarDistribuicaoProcessoPorId([FromRoute] Guid id)
     {
@@ -48,7 +57,10 @@ public class DistribuicaoProcessoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    /// <summary>
+    /// Lista todas as distribuições de processos cadastradas.
+    /// </summary>
+    /// <returns>Retorna uma lista de distribuições de processos.</returns>
     [HttpGet]
     public IActionResult ListarDistribuicaoProcesso()
     {
@@ -62,6 +74,12 @@ public class DistribuicaoProcessoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Edita uma distribuição de processo existente.
+    /// </summary>
+    /// <param name="id">ID da distribuição de processo a ser editada.</param>
+    /// <param name="editarDistribuicaoProcessoDto">Objeto contendo os novos dados da distribuição de processo.</param>
+    /// <returns>Retorna a distribuição de processo atualizada.</returns>
     [HttpPut("{id}")]
     public IActionResult EditarDistribuicaoProcesso([FromRoute] Guid id, [FromBody] EditarDistribuicaoProcessoDto editarDistribuicaoProcessoDto)
     {
@@ -80,6 +98,11 @@ public class DistribuicaoProcessoController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Deleta uma distribuição de processo pelo ID.
+    /// </summary>
+    /// <param name="id">ID da distribuição de processo a ser deletada.</param>
+    /// <returns>Retorna NoContent se a exclusão for bem-sucedida.</returns>
     [HttpDelete("{id}")]
     public IActionResult DeletarDistribuicaoProcesso([FromRoute] Guid id)
     {

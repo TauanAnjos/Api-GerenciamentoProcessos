@@ -7,7 +7,7 @@ namespace GerenciamentoProcessos.Services.Interfaces
         void CriarProcesso(CriarProcessoDto criarProcessoDto);
         void EditarProcesso(Guid id, EditarProcessoDto editarProcessoDto);
         ProcessosDto BuscarProcessoPorId(Guid id);
-        List<ProcessosDto> ListarProcessos();
+        List<ProcessosDto> ListarProcessos(ProcessosFiltrosDto processosDto);
         void DeletarProcesso(Guid id);
         ProcessosDto BuscarProcessoPorClientePorId(Guid clienteId);
 

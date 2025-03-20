@@ -15,10 +15,10 @@ public class ProcessosController : ControllerBase
         _processosAppService = processosAppService;
     }
     /// <summary>
-    /// Cria um processo jurídico.
+    /// Cria um novo processo jurídico.
     /// </summary>
-    /// <param name="criarProcessoDto">Campos para criar um processo.</param>
-    /// <returns>Cria um processo jurídico.</returns>
+    /// <param name="criarProcessoDto">Objeto contendo os dados necessários para criar um processo.</param>
+    /// <returns>Retorna o processo criado.</returns>
     [HttpPost]
     public IActionResult CriarProcesso([FromBody]CriarProcessoDto criarProcessoDto)
     {
@@ -36,13 +36,16 @@ public class ProcessosController : ControllerBase
             return BadRequest(ex.Message);
         }  
     }
-
+    /// <summary>
+    /// Lista todos os processos jurídicos cadastrados filtrando dados ou não.
+    /// </summary>
+    /// <returns>Retorna uma lista de processos.</returns>
     [HttpGet]
-    public IActionResult ListarProcessos()
+    public IActionResult ListarProcessos([FromQuery] ProcessosFiltrosDto processosDto)
     {
         try
         {
-            var processos = _processosAppService.ListarProcessos();
+            var processos = _processosAppService.ListarProcessos(processosDto);
             return Ok(processos);
         }
         catch (Exception ex)
@@ -50,6 +53,11 @@ public class ProcessosController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Busca um processo jurídico pelo ID.
+    /// </summary>
+    /// <param name="id">ID do processo a ser consultado.</param>
+    /// <returns>Retorna os detalhes do processo encontrado.</returns>
     [HttpGet("{id}")]
     public IActionResult BuscarProcessoPorId([FromRoute] Guid id)
     {
@@ -69,6 +77,12 @@ public class ProcessosController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Edita um processo jurídico existente.
+    /// </summary>
+    /// <param name="id">ID do processo a ser editado.</param>
+    /// <param name="editarProcessoDto">Objeto contendo os novos dados do processo.</param>
+    /// <returns>Retorna o processo atualizado.</returns>
     [HttpPut("{id}")]
     public IActionResult EditarProcesso([FromRoute] Guid id, [FromBody] EditarProcessoDto editarProcessoDto)
     {
@@ -90,6 +104,11 @@ public class ProcessosController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    /// <summary>
+    /// Exclui um processo jurídico pelo ID.
+    /// </summary>
+    /// <param name="id">ID do processo a ser deletado.</param>
+    /// <returns>Retorna um status 204 se a exclusão for bem-sucedida.</returns>
     [HttpDelete("{id}")]
     public IActionResult DeletarProcesso([FromRoute] Guid id)
     {

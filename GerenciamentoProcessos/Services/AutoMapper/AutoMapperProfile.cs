@@ -14,7 +14,8 @@ public class AutoMapperProfile : Profile
         CreateMap<CriarPrazoDto, Prazo>().ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int)src.StatusPrazo));
         CreateMap<CriarProcuradorDto, Procurador>();
 
-        CreateMap<Processo, ProcessosDto>().ForMember(dest => dest.StatusProcesso, opt => opt.MapFrom(src => (StatusProcesso)src.Status));
+        CreateMap<Processo, ProcessosDto>().ForMember(dest => dest.StatusProcesso, opt => opt.MapFrom(src => (StatusProcesso)src.Status))
+            .ForMember(dest => dest.Prazo, opt => opt.MapFrom(src => src.Prazos));
         CreateMap<Cliente, ClienteDto>();
         CreateMap<DistribuicaoProcesso, DistribuicaoProcessoDto>();
         CreateMap<Documento, DocumentoDto>();
