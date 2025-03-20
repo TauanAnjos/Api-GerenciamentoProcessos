@@ -27,6 +27,115 @@ Essa separação permite um código mais limpo e facilita futuras expansões da 
 
 🎯 Arquitetura → Padrão MVC
 
+🏛️ Configuração do Banco de Dados
+
+Para utilizar a API, é necessário criar o banco de dados e suas tabelas. Siga os passos abaixo para configurar o ambiente no SQL Server.
+
+📌 Passo 1: Criar o Banco de Dados
+
+Abra o SQL Server Management Studio (SSMS) ou outro cliente SQL e execute o seguinte comando:
+
+CREATE DATABASE GerenciamentoProcessos; 
+
+📌 Passo 2: Selecionar o Banco de Dados
+
+Após criar o banco, selecione-o para poder criar as tabelas:
+
+USE GerenciamentoProcessos;
+
+📌 Passo 3: Criar as Tabelas
+
+Execute os comandos abaixo para criar as tabelas necessárias:
+
+CREATE TABLE [Processo] (
+  [id] uniqueidentifier PRIMARY KEY default NEWID(),
+  [numero] nvarchar(255) UNIQUE,
+  [orgao_responsavel] nvarchar(255),
+  [assunto] nvarchar(255),
+  [status] nvarchar(255),
+  [procurador_id] uniqueidentifier,
+  [cliente_id] uniqueidentifier
+)
+GO
+
+CREATE TABLE [Prazo] (
+  [id] uniqueidentifier PRIMARY KEY default NEWID(),
+  [processo_id] uniqueidentifier,
+  [tipo] nvarchar(255),
+  [data_vencimento] date,
+  [status] nvarchar(255)
+)
+GO
+
+CREATE TABLE [Documento] (
+  [id] uniqueidentifier PRIMARY KEY default NEWID(),
+  [processo_id] uniqueidentifier,
+  [nome] nvarchar(255),
+  [tipo] nvarchar(50),
+  [caminho_arquivo] nvarchar(255)
+)
+GO
+
+CREATE TABLE [Procurador] (
+  [id] uniqueidentifier PRIMARY KEY default NEWID(),
+  [nome] nvarchar(255),
+  [email] nvarchar(255) UNIQUE,
+  [senha] nvarchar(255),
+  [oab] nvarchar(255) UNIQUE
+)
+GO
+
+CREATE TABLE [Cliente] (
+  [id] uniqueidentifier PRIMARY KEY default NEWID(),
+  [nome] nvarchar(255),
+  [email] nvarchar(255) UNIQUE,
+  [senha] nvarchar(255)
+)
+GO
+
+CREATE TABLE [DistribuicaoProcesso] (
+  [id] uniqueidentifier PRIMARY KEY default NEWID(),
+  [processo_id] uniqueidentifier,
+  [procurador_origem_id] uniqueidentifier,
+  [procurador_destino_id] uniqueidentifier,
+  [data_transferencia] datetime
+)
+GO
+
+📌 Passo 4: Criar as Relações entre as Tabelas
+
+Agora, adicione as chaves estrangeiras para garantir a integridade referencial:
+
+ALTER TABLE [Processo] 
+  ADD FOREIGN KEY ([procurador_id]) REFERENCES [Procurador] ([id]) ON DELETE NO ACTION  -- Ligação com procurador, não permite exclusão do procurador se associado a processo
+GO
+
+ALTER TABLE [Processo] 
+  ADD FOREIGN KEY ([cliente_id]) REFERENCES [Cliente] ([id]) ON DELETE NO ACTION  -- Ligação com cliente, não permite exclusão do cliente se associado a processo
+GO
+
+ALTER TABLE [Prazo] 
+  ADD FOREIGN KEY ([processo_id]) REFERENCES [Processo] ([id]) ON DELETE NO ACTION  -- Ligação com processo, não permite exclusão do processo se houver prazo relacionado
+GO
+
+ALTER TABLE [Documento] 
+  ADD FOREIGN KEY ([processo_id]) REFERENCES [Processo] ([id]) ON DELETE NO ACTION  -- Ligação com processo, não permite exclusão do processo se houver documentos relacionados
+GO
+
+ALTER TABLE [DistribuicaoProcesso] 
+  ADD FOREIGN KEY ([processo_id]) REFERENCES [Processo] ([id]) ON DELETE NO ACTION  -- Ligação com processo, não permite exclusão do processo se distribuído
+GO
+
+ALTER TABLE [DistribuicaoProcesso] 
+  ADD FOREIGN KEY ([procurador_origem_id]) REFERENCES [Procurador] ([id]) ON DELETE NO ACTION  -- Ligação com procurador de origem, não permite exclusão se estiver em distribuição
+GO
+
+ALTER TABLE [DistribuicaoProcesso] 
+  ADD FOREIGN KEY ([procurador_destino_id]) REFERENCES [Procurador] ([id]) ON DELETE NO ACTION  -- Ligação com procurador de destino, não permite exclusão se estiver em distribuição
+GO
+
+✅ Banco de Dados Criado com Sucesso!
+
 ## Testando a API
 
 Após iniciar a API, abra no navegador:
