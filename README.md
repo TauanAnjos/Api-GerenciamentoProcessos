@@ -52,7 +52,7 @@ CREATE TABLE [Processo] (
   [numero] nvarchar(255) UNIQUE,
   [orgao_responsavel] nvarchar(255),
   [assunto] nvarchar(255),
-  [status] nvarchar(255),
+  [status] int,
   [procurador_id] uniqueidentifier,
   [cliente_id] uniqueidentifier
 )
@@ -63,7 +63,7 @@ CREATE TABLE [Prazo] (
   [processo_id] uniqueidentifier,
   [tipo] nvarchar(255),
   [data_vencimento] date,
-  [status] nvarchar(255)
+  [status] int
 )
 GO
 
