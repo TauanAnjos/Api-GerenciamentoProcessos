@@ -112,27 +112,21 @@ GO
 
 ALTER TABLE [Processo] 
   ADD FOREIGN KEY ([cliente_id]) REFERENCES [Cliente] ([id]) ON DELETE NO ACTION  -- Ligação com cliente, não permite exclusão do cliente se associado a processo
-GO
 
 ALTER TABLE [Prazo] 
   ADD FOREIGN KEY ([processo_id]) REFERENCES [Processo] ([id]) ON DELETE NO ACTION  -- Ligação com processo, não permite exclusão do processo se houver prazo relacionado
-GO
 
 ALTER TABLE [Documento] 
   ADD FOREIGN KEY ([processo_id]) REFERENCES [Processo] ([id]) ON DELETE NO ACTION  -- Ligação com processo, não permite exclusão do processo se houver documentos relacionados
-GO
 
 ALTER TABLE [DistribuicaoProcesso] 
   ADD FOREIGN KEY ([processo_id]) REFERENCES [Processo] ([id]) ON DELETE NO ACTION  -- Ligação com processo, não permite exclusão do processo se distribuído
-GO
 
 ALTER TABLE [DistribuicaoProcesso] 
   ADD FOREIGN KEY ([procurador_origem_id]) REFERENCES [Procurador] ([id]) ON DELETE NO ACTION  -- Ligação com procurador de origem, não permite exclusão se estiver em distribuição
-GO
 
 ALTER TABLE [DistribuicaoProcesso] 
   ADD FOREIGN KEY ([procurador_destino_id]) REFERENCES [Procurador] ([id]) ON DELETE NO ACTION  -- Ligação com procurador de destino, não permite exclusão se estiver em distribuição
-GO
 
 ### ✅ Banco de Dados Criado com Sucesso!
 
